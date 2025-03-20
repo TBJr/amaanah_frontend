@@ -100,13 +100,12 @@
     /**
      * Countdown timer
      */
-    function updateCountDown(countDownItem, startTime) {
-        const elapsedTime = new Date().getTime() - startTime;
-        const timeleft = Math.max((5 * 24 * 60 * 60 * 1000) + // 5 days
-            (19 * 60 * 60 * 1000) +    // 19 hours
-            (55 * 60 * 1000) +        // 55 minutes
-            (8 * 1000) - elapsedTime, // 8 seconds
-            0); // Prevent negative values
+    /**
+     * Countdown timer to expire exactly on March 25, 2025.
+     */
+    function updateCountDown(countDownItem, targetTime) {
+        const currentTime = new Date().getTime();
+        const timeleft = Math.max(targetTime - currentTime, 0); // Prevent negative values
 
         const days = Math.floor(timeleft / (1000 * 60 * 60 * 24));
         const hours = Math.floor((timeleft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
@@ -119,14 +118,13 @@
         countDownItem.querySelector('.count-seconds').innerHTML = seconds;
     }
 
-    // Store the countdown start time (prevents reset on page refresh)
-    const countdownStartTime = new Date().getTime();
+    // Set the target date: March 25, 2025, 00:00:00 UTC
+    const targetDate = new Date('2025-03-25T00:00:00Z').getTime();
 
     document.querySelectorAll('.countdown').forEach(function(countDownItem) {
-        updateCountDown(countDownItem, countdownStartTime);
+        updateCountDown(countDownItem, targetDate);
         setInterval(function() {
-            updateCountDown(countDownItem, countdownStartTime);
+            updateCountDown(countDownItem, targetDate);
         }, 1000);
     });
-
 })();
